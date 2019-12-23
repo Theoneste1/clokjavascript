@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+<body>
+  <h4>Update CSS Variables with <span class='hl'>JS</span></h4>
+
+  <div class="controls">
+    <!-- for spacing -->
+    <label for="spacing">spacing:</label>
+    <input type="range" name="spacing" min="0" max="200" value="10" data-sizing="px">
+    <!-- for blur -->
+
+    <label for="blur"> blur:</label>
+    <input type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+    <!-- for base color-->
+
+    <label for="color"> Base color:</label>
+    <input type="color" name="basecolor" value="#ffc600">
+  </div>
+
+  <img style="width: 500px; height: 500px" src="images/Theoneste.jpg">
+
+  <style>
+    :root{
+      --basecolor:yellow;
+      --spacing: 10px;
+      --blur: 0px;
+    }
+
+    /* root above is being used to declare global customer property, thereafter it would be used in with var function to insert the value of custom property*/
+    img{
+      padding: var(--spacing);
+      background: var(--basecolor);
+      filter: blur(var(--blur));
+    }
+
+    .hl{
+      color:var(--basecolor);
+    }
+
+    /*
+      misc styles, nothing to do with CSS variables
+    */
+    body{
+       text-align: center;
+       background-color: #193549;
+       font-family: sans-serif;
+       color: white;
+       /*font-weight: 100rem;*/
+       font-size: 20px;
+     }
+
+       .controls{
+        margin-bottom: 50px;
+       }
+       /* Input for entering the content*/
+    input {
+      width: 100px;
+    }
+
+
+  </style>
+
+  <script>
+     const inputs=document.querySelectorAll('.controls input');
+
+    //function to update the inputs
+    function handleUpdate()
+    {
+      //dataset is component of value,so then adding sizing it would 'px' because sizing created above
+      //creatting the prefix
+      const suffix=this.dataset.sizing||" ";
+      // console.log(this.name +" "+ this.value+suffix);
+
+      
+
+      // $ this.name is variable that is replacing color,spacing, blur.
+      // if we don't use ${this.name} we' ll have to type everything of them like
+
+      //document.documentElement.style.setProperty('--spacing',this.value+ suffix);
+
+     //document.documentElement.style.setProperty('--bulr',this.value+ suffix);
+
+     document.documentElement.style.setProperty('--basecolor',this.value+suffix);
+
+    // document.documentElement.style.setProperty(this.name, this.value+suffix);
+
+    } //done by trying to access all documents
+
+    inputs.forEach(one_input=>one_input.addEventListener('change',handleUpdate));
+
+
+    //changing when mouse is moving
+    inputs.forEach(one_input=>one_input.addEventListener('mousemove',handleUpdate));
+
+  </script>
+
+</body>
+</html>
